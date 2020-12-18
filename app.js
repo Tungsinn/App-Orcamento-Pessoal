@@ -7,12 +7,24 @@ class Despesa {
         this.descricao = descricao
         this.valor = valor
     } 
+
+    validarDados() {
+        // Percorre os atributos contidos dentro do próprio
+        // objeto despesa[]
+        for(let i in this) {
+            if(this[i] == undefined || this[i] == '' || this[i] == null) {
+                return false
+            }
+        }
+        return true
+    }
+
 }
 
 class Bd {
     constructor() {
         let id = localStorage.getItem('id')
-        
+
         // constrói uma chave (id) se nenhuma existir
         if(id === null) {
             localStorage.setItem('id', 0)
@@ -56,5 +68,12 @@ function cadastrarDespesa() {
         valor.value
     )
 
-    bd.gravar(despesa)
+    // Verifica se o usuário preencheu todos os dados antes
+    // de gravar
+    if(despesa.validarDados()) {
+        bd.gravar(despesa)
+    } else {
+        //dialog de erro
+        alert('Dados inválidos! Preencha todos os campos, por favor.')
+    }
 }
