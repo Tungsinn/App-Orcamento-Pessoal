@@ -71,9 +71,13 @@ function cadastrarDespesa() {
     // Verifica se o usuário preencheu todos os dados antes
     // de gravar
     if(despesa.validarDados()) {
+        // Grava dados no Local Storage
         bd.gravar(despesa)
+        // Dispara modal de sucesso
+        $('#sucessoGravacao').modal('show')
     } else {
-        //dialog de erro
-        alert('Dados inválidos! Preencha todos os campos, por favor.')
+        // Dispara modal com o erro
+        // Seletor do jQuery
+        $('#erroGravacao').modal('show')
     }
 }
