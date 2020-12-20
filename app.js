@@ -25,7 +25,7 @@ class Bd {
     constructor() {
         let id = localStorage.getItem('id')
 
-        // constrói uma chave (id) se nenhuma existir
+        // Constrói uma chave (id) se nenhuma existir
         if(id === null) {
             localStorage.setItem('id', 0)
         }
@@ -45,6 +45,32 @@ class Bd {
         let id = this.getProxId()
         localStorage.setItem(id, JSON.stringify(d))
         localStorage.setItem('id', id)
+    }
+
+    // Recupera os registros dentro de Local Storage toda vez
+    // que consulta.html for carregada
+    recuperarTodosRegistros() {
+        // Array de despesas
+        let despesas = Array()
+        let id = localStorage.getItem('id')
+
+        // Recupera todas as despesas cadastradas em 
+        // Local Storage
+        for(let i = 1; i <= id; i++) {
+            // Recupera a despesa em formato JSON e converte 
+            // para objeto literal com o método parse()
+            let despesa = JSON.parse(localStorage.getItem(i))
+
+            // Verifica se existem índices com valor null
+            // (despesas que foram excluídas, por exemplo)
+            if(despesa === null) {
+                // Pula o índice e continua a execução
+                continue
+            }
+            // Insere no array
+            despesas.push(despesa)
+        }
+        return despesas
     }
 }
 
@@ -91,4 +117,11 @@ function cadastrarDespesa() {
         // Seletor do jQuery
         $('#registraDespesa').modal('show')
     }
+}
+
+function carregaListaDespesas() {
+    let despesas = Array()
+    // Recebe a lista com todas as despesas
+    despesas = bd.recuperarTodosRegistros()
+    console.log(despesas)
 }
