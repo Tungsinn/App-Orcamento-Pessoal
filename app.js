@@ -106,7 +106,16 @@ function cadastrarDespesa() {
         document.getElementById('modal_conteudo').innerHTML = 'Despesa registrada com sucesso!'
         document.getElementById('modal_btn').innerHTML = 'Voltar'
         document.getElementById('modal_btn').className = 'btn btn-success'
-        $('#registraDespesa').modal('show')
+        $('#registraDespesa').modal('show') 
+
+        // Limpa os campos
+        ano.value = ''
+        mes.value = ''
+        dia.value = ''
+        tipo.value = ''
+        descricao.value = ''
+        valor.value = ''
+
     } else {
         // Dispara modal com o erro
         document.getElementById('modal_titulo').innerHTML = "Erro de gravação"
