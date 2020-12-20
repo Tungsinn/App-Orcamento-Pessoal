@@ -67,6 +67,8 @@ class Bd {
                 // Pula o índice e continua a execução
                 continue
             }
+
+            despesa.id = i
             // Insere no array
             despesas.push(despesa)
         }
@@ -119,6 +121,11 @@ class Bd {
         }
 
         return despesasFiltradas
+    }
+
+    // Remove registro baseado no id
+    remover(id) {
+        localStorage.removeItem(id)
     }
 }
 
@@ -177,7 +184,7 @@ function cadastrarDespesa() {
 
 function carregaListaDespesas(despesas = Array(), filtro = false) {
     // Verifica o Array é de um filtro
-    if(despesas.lenght == 0 && filtro == false) {
+    if(filtro == false) {
         // Recebe a lista com todas as despesas
         despesas = bd.recuperarTodosRegistros()
     }
@@ -211,6 +218,23 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
         linha.insertCell(1).innerHTML = d.tipo
         linha.insertCell(2).innerHTML = d.descricao
         linha.insertCell(3).innerHTML = d.valor
+
+        // Criar o botão de exclusão
+        let btn = document.createElement("button")
+        btn.className = 'btn btn-danger'
+        btn.innerHTML = '<i class="fas fa-times"></i>'
+        // Inserção da string 'id_despesa_' para evitar erros
+        // de leitura do browser
+        btn.id = 'id_despesa_' + d.id
+        btn.onclick = function() {
+            // Remoção da string para obter apenas o id 
+            // da despesa que será removida
+            let id = this.id.replace('id_despesa_', '')
+            bd.remover(id)
+            // Atualiza a página
+            window.location.reload()
+        }
+        linha.insertCell(4).append(btn)
     })
 }
 
